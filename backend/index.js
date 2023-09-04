@@ -4,28 +4,19 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const User = require("./models/user");
-const auth = require("./routes/auth");
-const { isAuthenticated } = require("./controllers/auth");
+const authRoutes = require("./routes/auth").router;
+const listRoutes = require("./routes/list");
 
-app.get("/test", (req, res, next) => {
-  return res.send("OK");
-});
+app.use(
+  cors({
+    origin: "http://localhost:3010",
+    methods: "GET,POST,PUT,DELETE,PATCH",
+    credentials: true,
+  })
+);
 
-app.use(auth);
-
-app.get("/", (req, res, next) => {
-  res.send('<a href="/login">SIGN IN</a>');
-});
-
-app.get("/auth", isAuthenticated, (req, res) => {
-  res.json({ user: req.user });
-});
-
-app.get("/login", (req, res) => {
-  res.send(
-    "<p>Sign in please</p><br><a href='/login/google'>GOOGLE SIGN IN</a>"
-  );
-});
+app.use(authRoutes);
+app.use("/api", listRoutes);
 
 app.use((req, res) => {
   res.status(404).send("ERROR 404 - PAGE NOT FOUND");
