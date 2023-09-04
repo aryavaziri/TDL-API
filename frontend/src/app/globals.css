@@ -17,7 +17,7 @@
 }
 
 body {
-  min-height: 100vh;
+  height: 100vh;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -89,22 +89,12 @@ body::-webkit-scrollbar {
 }
 
 
-.font-custom1,
-.font-custom1 * {
-    font-family: 'Sarpanch', sans-serif;
-}
-
 * {
-    font-family: 'Agdasima', sans-serif;
     box-sizing: border-box !important;
     padding: 0;
     margin: 0;
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
-}
-
-.timing-linear {
-    transition-timing-function: linear;
 }
 
 .fadeInOut {

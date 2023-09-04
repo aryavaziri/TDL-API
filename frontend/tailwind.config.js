@@ -17,6 +17,14 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        serif: ["var(--font-mm)"],
+      },
+      transitionDelay: {
+        400: "400ms",
+        600: "600ms",
+        800: "800ms",
+      },
     },
   },
   plugins: [],
