@@ -1,18 +1,22 @@
 {
-  "name": "oauth",
+  "name": "tdl",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
   },
-  "author": "",
+  "author": "Arya Vaziri",
+  "type": "module",
   "license": "ISC",
   "dependencies": {
+    "@apollo/server": "^4.9.3",
+    "@apollo/subgraph": "^2.5.4",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "googleapis": "^126.0.1",
+    "graphql": "^16.8.0",
+    "graphql-tag": "^2.12.6",
     "jsonwebtoken": "^9.0.1",
     "mongodb": "^6.0.0",
     "mongoose": "^7.4.5",

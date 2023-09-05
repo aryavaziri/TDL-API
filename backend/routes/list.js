@@ -1,8 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const listController = require("../controllers/list");
-const { isAuth } = require("./auth");
+import express from "express";
+export const router = express.Router();
+import { isAuth } from "./auth.js";
 
-router.get("/lists", listController.getLists);
-
-module.exports = router;
+router.get("/lists", isAuth, (req, res, next) => {
+  return res.send("GET LIST");
+});

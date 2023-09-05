@@ -1,22 +1,36 @@
-require("dotenv").config();
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-const cors = require("cors");
-const User = require("./models/user");
-const authRoutes = require("./routes/auth").router;
-const listRoutes = require("./routes/list");
+import "dotenv/config";
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import { readFileSync } from "fs";
+import { router as authRoutes } from "./routes/auth.js";
+import { router as listRoutes } from "./routes/list.js";
 
-app.use(
-  cors({
-    origin: "http://localhost:3010",
-    methods: "GET,POST,PUT,DELETE,PATCH",
-    credentials: true,
+import gql from "graphql-tag";
+import { ApolloServer } from "@apollo/server";
+import { buildSubgraphSchema } from "@apollo/subgraph";
+import { expressMiddleware } from "@apollo/server/express4";
+import resolvers from "./graphql/resolvers.js";
+
+const app = express();
+
+const typeDefs = gql(
+  readFileSync("./graphql/schema.graphql", {
+    encoding: "utf-8",
   })
 );
 
+const server = new ApolloServer({
+  schema: buildSubgraphSchema({ typeDefs, resolvers }),
+});
+await server.start();
+
+app.use(cors());
+app.use(express.json());
+
 app.use(authRoutes);
 app.use("/api", listRoutes);
+app.use("/graphql", expressMiddleware(server));
 
 app.use((req, res) => {
   res.status(404).send("ERROR 404 - PAGE NOT FOUND");
@@ -29,9 +43,6 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(process.env.DB_uri)
-  .then(() => {
-    User.findOne();
-  })
   .then(() => {
     app.listen(3000);
   })

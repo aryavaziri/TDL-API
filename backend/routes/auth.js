@@ -1,11 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+import express from "express";
+export const router = express.Router();
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth2";
+import jwt from "jsonwebtoken";
+import { User } from "../models/user.js";
 
-const isAuth = async (req, res, next) => {
+export const isAuth = async (req, res, next) => {
   try {
     const token = req.headers["authorization"]?.split(" ")[1];
     if (!token) {
@@ -37,6 +37,7 @@ const isAuth = async (req, res, next) => {
 passport.use(
   new GoogleStrategy(
     {
+      // clientID: "process.env.GOOGLE_CLIENT_ID",
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/login/google/callback",
@@ -93,6 +94,3 @@ router.get(
     }
   }
 );
-
-exports.router = router;
-exports.isAuth = isAuth;
