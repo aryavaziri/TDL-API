@@ -46,6 +46,9 @@ const Nav = () => {
       .then((res) => {
         console.log(res);
         res.user && myContext.setUser(res.user);
+      })
+      .catch((err) => {
+        console.log("Server connection error!!!");
       });
   };
 

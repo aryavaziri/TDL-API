@@ -3,7 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import { readFileSync } from "fs";
-import { router as authRoutes } from "./routes/auth.js";
+import { router as authRoutes, isAuth } from "./routes/auth.js";
 import { router as listRoutes } from "./routes/list.js";
 
 import gql from "graphql-tag";
@@ -30,7 +30,11 @@ app.use(express.json());
 
 app.use(authRoutes);
 app.use("/api", listRoutes);
-app.use("/graphql", expressMiddleware(server));
+app.use(
+  "/graphql",
+  isAuth,
+  expressMiddleware(server, { context: async ({ req, res }) => ({ req, res }) })
+);
 
 app.use((req, res) => {
   res.status(404).send("ERROR 404 - PAGE NOT FOUND");

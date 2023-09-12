@@ -1,25 +1,26 @@
-import { Schema, model, models } from "mongoose";
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const listSchema = new Schema(
   {
-    title: String,
+    title: { type: String, required: true },
     items: [{ type: Schema.Types.ObjectId, ref: "Item" }],
     collaborators: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    creator: { type: Schema.Types.ObjectId, ref: "User" },
+    author: { type: Schema.Types.ObjectId, required: true, ref: "User" },
   },
-  { timestamps }
+  { timestamps: true }
 );
 
 const itemSchema = new Schema(
   {
-    name: String,
+    title: { type: String, required: true },
     done: { type: Boolean, default: false },
     quantity: { type: Number, default: 1 },
     source: { type: String },
     priority: { type: String },
   },
-  { timestamps }
+  { timestamps: true }
 );
 
-export const List = models.List || model("List", listSchema);
-export const Item = models.Item || model("Item", itemSchema);
+export const List = mongoose.model("List", listSchema);
+export const Item = mongoose.model("Item", itemSchema);
