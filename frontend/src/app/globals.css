@@ -28,12 +28,12 @@ body {
   background: 
   linear-gradient(
       to bottom,
-     rgb(0, 28, 48),
+     rgba(4, 64, 107, 0.8),
       /* transparent, */
       /* rgb(38, 35, 35),
       rgb(38, 35, 35),
       black */
-      rgb(11, 127, 157)
+      rgba(0, 44, 60, 0.5)
 
       /* #c4a0ff,
       #24a0ff */
