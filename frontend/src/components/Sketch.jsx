@@ -73,11 +73,60 @@ const sketch = (p5) => {
     ts = p5.loadImage("/logo/ts.svg");
     p5js = p5.loadImage("/logo/p5js.svg");
   };
-
+  let slider;
+  let slider1;
+  let slider2;
+  let slider3;
+  let slider4;
+  let slider5;
+  let checkbox1;
+  let checkbox2;
+  let checkbox3;
+  let checkbox4;
+  let checkbox5;
+  let radio1;
+  let radio2;
   p5.setup = () => {
     p5.createCanvas(window.innerWidth, window.innerHeight, p5.WEBGL);
     p5.perspective(p5.PI / 5.0, p5.width / p5.height, 0.1, 500);
     p5.noStroke();
+    slider = p5.createSlider(0, 99, 20);
+    slider.position(10, 10);
+    slider.style("width", "65px");
+    slider1 = p5.createSlider(0, 99, 50);
+    slider1.position(10, 30);
+    slider1.style("width", "65px");
+    slider2 = p5.createSlider(0, 99, 30);
+    slider2.position(10, 50);
+    slider2.style("width", "65px");
+    slider3 = p5.createSlider(0, 10, 5);
+    slider3.position(10, 70);
+    slider3.style("width", "65px");
+    slider4 = p5.createSlider(0, 30, 10);
+    slider4.position(10, 90);
+    slider4.style("width", "65px");
+    slider5 = p5.createSlider(0, 30, 10);
+    slider5.position(10, 110);
+    slider5.style("width", "65px");
+
+    radio1 = p5.createRadio();
+    radio1.option(" cam1");
+    radio1.option(" cam2");
+    radio1.option(" cam3");
+    radio1.style("width", "65px");
+    radio1.position(10, 130);
+
+    checkbox1 = p5.createCheckbox("light1", false);
+    checkbox1.position(10, 200);
+    checkbox2 = p5.createCheckbox("light2", false);
+    checkbox2.position(10, 220);
+    checkbox3 = p5.createCheckbox("light3", false);
+    checkbox3.position(10, 240);
+    checkbox4 = p5.createCheckbox("light4", false);
+    checkbox4.position(10, 260);
+    checkbox5 = p5.createCheckbox("lines", false);
+    checkbox5.position(10, 300);
+
     html.resize(800, 800);
     css.resize(800, 800);
     git.resize(800, 800);
@@ -115,6 +164,7 @@ const sketch = (p5) => {
     p5.push();
     p5.rotateX(p5.PI / 6);
     p5.push();
+    scale = slider5.value() / 1000;
     switch (item) {
       case "react":
         p5.scale(scale);
@@ -279,23 +329,31 @@ const sketch = (p5) => {
   const createSphere = (vectorX, vectorY, vectorZ, color, logo) => {
     p5.push();
     p5.translate(vectorX, vectorY, vectorZ);
-    p5.pointLight(
-      p5.color(`${color}`),
-      vectorX + 250,
-      vectorY - 250,
-      vectorZ + 200
-    );
-    p5.pointLight(
-      p5.color(`${color}`),
-      vectorX - 250,
-      vectorY - 250,
-      vectorZ + 200
-    );
-    p5.pointLight(p5.color(`${color}`), vectorX, vectorY + 150, vectorZ + 250);
-    p5.pointLight(p5.color(`${color}`), vectorX, vectorY, vectorZ);
-    p5.fill(p5.color(`${color}20`));
+    if (checkbox4.checked()) {
+      p5.pointLight(
+        p5.color(`${color}`),
+        vectorX + 250,
+        vectorY - 250,
+        vectorZ + 200
+      );
+      p5.pointLight(
+        p5.color(`${color}`),
+        vectorX - 250,
+        vectorY - 250,
+        vectorZ + 200
+      );
+      p5.pointLight(
+        p5.color(`#${color}`),
+        vectorX,
+        vectorY + 150,
+        vectorZ + 250
+      );
+      p5.pointLight(p5.color(`#${color}`), vectorX, vectorY, vectorZ);
+    }
+    p5.fill(p5.color(256, slider.value()));
+    // p5.fill(p5.color(`${color}10`));
     Logo(logo, color);
-    p5.sphere(12);
+    p5.sphere(slider4.value());
     p5.pop();
   };
 
@@ -305,12 +363,26 @@ const sketch = (p5) => {
     // spaceY = 80 + p5.mouseY / 20;
 
     p5.background(0, 0);
-    p5.directionalLight(100, 100, 100, 0.5, 0.8, -1);
-    p5.directionalLight(100, 100, 100, -0.5, 0.8, -1);
-    p5.lights();
-    p5.perspective();
-    // p5.frustum();
-    // p5.ortho();
+    if (checkbox1.checked()) {
+      p5.directionalLight(100, 100, 100, 0.5, 0.8, -1);
+    }
+    if (checkbox2.checked()) {
+      p5.directionalLight(100, 100, 100, -0.5, 0.8, -1);
+    }
+    if (checkbox3.checked()) {
+      p5.lights();
+    }
+    if (checkbox4.checked()) {
+    }
+    if (radio1.value() === " cam1") {
+      p5.perspective();
+    }
+    if (radio1.value() === " cam2") {
+      p5.frustum();
+    }
+    if (radio1.value() === " cam3") {
+      p5.ortho();
+    }
     p5.camera(
       (120 * (window.innerWidth - p5.mouseX * 2)) / window.innerWidth,
       -200,
@@ -388,6 +460,9 @@ const sketch = (p5) => {
       v29,
       v30,
     ];
+    spaceX = slider1.value();
+    spaceY = slider2.value();
+    spaceZ = slider3.value();
 
     const render = v.map((item) => {
       return createSphere(
@@ -407,30 +482,32 @@ const sketch = (p5) => {
         item[3]
       );
     });
-    createLine(v1, v2);
-    createLine(v2, v6);
-    createLine(v6, v7);
-    createLine(v9, v10);
-    createLine(v12, v11);
-    createLine(v9, v11);
-    createLine(v14, v10);
-    createLine(v12, v6);
-    createLine(v1, v19);
-    createLine(v20, v19);
-    createLine(v21, v19);
-    createLine(v20, v4);
-    createLine(v10, v4);
-    createLine(v20, v24);
-    createLine(v16, v22);
-    createLine(v16, v2);
-    createLine(v16, v17);
-    createLine(v21, v22);
+    if (checkbox5.checked()) {
+      createLine(v1, v2);
+      createLine(v2, v6);
+      createLine(v6, v7);
+      createLine(v9, v10);
+      createLine(v12, v11);
+      createLine(v9, v11);
+      createLine(v14, v10);
+      createLine(v12, v6);
+      createLine(v1, v19);
+      createLine(v20, v19);
+      createLine(v21, v19);
+      createLine(v20, v4);
+      createLine(v10, v4);
+      createLine(v20, v24);
+      createLine(v16, v22);
+      createLine(v16, v2);
+      createLine(v16, v17);
+      createLine(v21, v22);
+    }
     myRate += 1;
   };
 };
 export default function Sketch() {
   return (
-    <div className={`fixed top-0 left-0 z-[-100]`}>
+    <div className={`fixed top-0 left-0 z-[100]`}>
       <NextReactP5Wrapper sketch={sketch} />
     </div>
   );
