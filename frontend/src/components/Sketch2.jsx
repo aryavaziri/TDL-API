@@ -1,44 +1,107 @@
 import { NextReactP5Wrapper } from "@p5-wrapper/next";
+import {
+  names,
+  v1,
+  v2,
+  v3,
+  v4,
+  v5,
+  v6,
+  v7,
+  v8,
+  v9,
+  v10,
+  v11,
+  v12,
+  v13,
+  v14,
+  v15,
+  v16,
+  v17,
+  v18,
+  v19,
+  v20,
+  v21,
+  v22,
+  v23,
+  v24,
+  v25,
+  v26,
+  v27,
+  v28,
+  v29,
+  v30,
+} from "./data";
 
 const sketch = (p5) => {
-  let html;
-  let css;
-  let js;
-  let nodejs;
-  let react;
-  let redux;
-  let expressjs;
-  let python;
-  let django;
-  let git;
+  let html,
+    css,
+    js,
+    nodejs,
+    react,
+    redux,
+    expressjs,
+    python,
+    django,
+    git,
+    mongodb,
+    c,
+    csharp,
+    unity,
+    docker,
+    kubernetes,
+    nginx,
+    postgres,
+    rest,
+    graphql,
+    next,
+    jwt,
+    bootstrap,
+    tailwind,
+    redis,
+    firebase,
+    aws,
+    php,
+    ts,
+    p5js;
 
-  let mongodb;
-  let c;
-  let csharp;
-  let unity;
-  let docker;
-  let kubernetes;
-  let nginx;
-  let postgres;
-  let rest;
-  let graphql;
+  let slider;
+  let slider1;
+  let slider2;
+  let slider3;
+  let slider4;
+  let slider5;
+  let slider6;
+  let slider7;
+  let slider8;
+  let checkbox1;
+  let checkbox2;
+  let checkbox3;
+  let checkbox4;
+  let checkbox5;
+  let checkbox6;
+  let radio1;
+  let radio2;
 
-  let next;
-  let jwt;
-  let bootstrap;
-  let tailwind;
-  let redis;
-  let firebase;
-  let aws;
-  let php;
-  let ts;
-  let p5js;
+  let random1, random2, random3;
 
   let spaceX = 50;
   let spaceY = 30;
   let spaceZ = 5;
 
+  let var1 = 0,
+    var2 = 0,
+    var3 = 0;
+
   let scale = 0.015;
+  let myRate = -10 * p5.PI;
+
+  const vec3 = Array(31)
+    .fill()
+    .map((_) => ({
+      name: names[Math.floor(Math.random() * 30)],
+      group: Math.floor(Math.random() * 3) + 1,
+    }));
 
   p5.preload = () => {
     html = p5.loadImage("/logo/html.svg");
@@ -73,22 +136,6 @@ const sketch = (p5) => {
     ts = p5.loadImage("/logo/ts.svg");
     p5js = p5.loadImage("/logo/p5js.svg");
   };
-  let slider;
-  let slider1;
-  let slider2;
-  let slider3;
-  let slider4;
-  let slider5;
-  let slider6;
-  let slider7;
-  let slider8;
-  let checkbox1;
-  let checkbox2;
-  let checkbox3;
-  let checkbox4;
-  let checkbox5;
-  let radio1;
-  let radio2;
 
   p5.setup = () => {
     p5.createCanvas(window.innerWidth, window.innerHeight, p5.WEBGL);
@@ -97,16 +144,16 @@ const sketch = (p5) => {
     slider = p5.createSlider(0, 99, 20);
     slider.position(10, 10);
     slider.style("width", "65px");
-    slider1 = p5.createSlider(0, 99, 50);
+    slider1 = p5.createSlider(0, p5.PI * 2, 0, 0.1);
     slider1.position(10, 30);
     slider1.style("width", "65px");
-    slider2 = p5.createSlider(0, 99, 30);
+    slider2 = p5.createSlider(0, p5.PI * 2, 0, 0.1);
     slider2.position(10, 50);
     slider2.style("width", "65px");
     slider3 = p5.createSlider(0, 10, 5);
     slider3.position(10, 70);
     slider3.style("width", "65px");
-    slider4 = p5.createSlider(0, 30, 10);
+    slider4 = p5.createSlider(0, 30, 1);
     slider4.position(10, 90);
     slider4.style("width", "65px");
     slider5 = p5.createSlider(0, 30, 10);
@@ -129,19 +176,25 @@ const sketch = (p5) => {
     checkbox4 = p5.createCheckbox("light4", false);
     checkbox4.position(10, 260);
     checkbox5 = p5.createCheckbox("lines", false);
-    checkbox5.position(10, 300);
+    checkbox5.position(10, 280);
+    checkbox6 = p5.createCheckbox("test", false);
+    checkbox6.position(10, 300);
 
     slider6 = p5.createSlider(0, 500, 100);
     slider6.position(10, 320);
     slider6.style("width", "65px");
 
-    slider7 = p5.createSlider(0, 300, 100);
+    slider7 = p5.createSlider(-50, 150, 50);
     slider7.position(10, 340);
     slider7.style("width", "65px");
 
-    slider8 = p5.createSlider(0, 12, 6);
+    slider8 = p5.createSlider(0, 3, 0);
     slider8.position(10, 360);
     slider8.style("width", "65px");
+
+    random1 = p5.random(100);
+    random2 = p5.random(100);
+    random3 = p5.random(100);
 
     html.resize(800, 800);
     css.resize(800, 800);
@@ -176,9 +229,9 @@ const sketch = (p5) => {
     // p5.noLoop();
   };
 
-  const Logo = (item, color) => {
+  const Logo = (item) => {
     p5.push();
-    p5.rotateX(p5.PI / 6);
+    // p5.rotateX(p5.PI / 6);
     p5.push();
     scale = slider5.value() / 1000;
     switch (item) {
@@ -342,191 +395,137 @@ const sketch = (p5) => {
     p5.pop();
   };
 
-  const createSphere = (vectorX, vectorY, vectorZ, color, logo) => {
+  const createSphere = (item) => {
     p5.push();
-    p5.translate(vectorX, vectorY, vectorZ);
-
-    if (checkbox4.checked()) {
-      p5.lightFalloff(0.97, 0.03, 0);
-      p5.pointLight(
-        p5.color(`${color}`),
-        vectorX + 250,
-        vectorY - 250,
-        vectorZ + 200
-      );
-      p5.pointLight(
-        p5.color(`${color}`),
-        vectorX - 250,
-        vectorY - 250,
-        vectorZ + 200
-      );
-      p5.pointLight(
-        p5.color(`#${color}`),
-        vectorX,
-        vectorY + 150,
-        vectorZ + 250
-      );
-      p5.pointLight(p5.color(`#${color}`), vectorX, vectorY, vectorZ);
-    }
     p5.fill(p5.color(256, slider.value()));
-    // p5.fill(p5.color(`${color}10`));
-
-    Logo(logo, color);
+    p5.rotateZ(item.beta);
+    p5.rotateZ(item.gamma / 48);
+    p5.rotateY(item.alfa);
+    p5.rotateY(0.1 * p5.sin(myRate / 10 + item.beta));
+    p5.stroke("#ffffff20");
+    p5.line(
+      50 + (checkbox6.checked() && item.group == 1 ? 50 : 0),
+      0,
+      0,
+      0,
+      0,
+      0
+    );
+    // p5.translate(100 + 10 * p5.sin(myRate / 12), 0, 0);
+    p5.translate(50 + (checkbox6.checked() && item.group == 1 ? 50 : 0), 0, 0);
+    checkbox6.checked() && item.group == 1 ? p5.scale(2) : null;
+    Logo(item.name);
+    // p5.noStroke();
     p5.sphere(slider4.value());
     p5.pop();
   };
 
-  let myRate = -10 * p5.PI;
-  p5.draw = () => {
-    // spaceX = 60 + p5.mouseY / 20;
-    // spaceY = 80 + p5.mouseY / 20;
+  const createSphere2 = (item, n1, n2) => {
+    p5.push();
+    p5.fill(p5.color(256, slider.value()));
+    p5.rotateX(p5.PI / 2);
+    p5.rotateX((n1 * p5.PI) / n2 + myRate * 0.007);
+    p5.rotateZ((n1 * 12 * p5.PI) / n2 + myRate * 0.009);
+    p5.strokeWeight(2);
+    p5.stroke(slider8.value() == item.group ? "#ff000060" : "#ffffff40");
+    p5.line(
+      (item.group == 1 ? var1 : item.group == 2 ? var2 : var3) + 50,
+      0,
+      0,
+      0,
+      0,
+      0
+    );
+    p5.translate(
+      (item.group == 1 ? var1 : item.group == 2 ? var2 : var3) + 50,
+      0,
+      0
+    );
+    console.log(var1, var2, var3);
+    const logoRotationX = p5.atan2(0, 0) - p5.atan2(0, 100);
+    const logoRotationY = p5.atan2(0, 0) - p5.atan2(0, 100);
+    const logoRotationZ = p5.atan2(0, 0) - p5.atan2(0, 100);
+    p5.rotateX(p5.PI / -2);
+    p5.rotateY(p5.PI / 2);
 
-    p5.background(0, 0);
-    if (checkbox1.checked()) {
-      p5.directionalLight(100, 100, 100, 0.5, 0.8, -1);
-    }
-    if (checkbox2.checked()) {
-      p5.directionalLight(100, 100, 100, -0.5, 0.8, -1);
-    }
-    if (checkbox3.checked()) {
-      p5.lights();
-    }
-    if (checkbox4.checked()) {
-    }
-    if (radio1.value() === " cam1") {
-      p5.perspective(
-        p5.PI / slider8.value(),
-        window.innerWidth / window.innerHeight,
-        1,
-        1000
-      );
-    }
-    if (radio1.value() === " cam2") {
-      p5.frustum();
-    }
-    if (radio1.value() === " cam3") {
-      p5.ortho();
-    }
+    p5.rotateX(logoRotationX);
+    p5.rotateY(logoRotationY);
+    p5.rotateZ(logoRotationZ);
+    p5.scale((item.group == 1 ? var1 : item.group == 2 ? var2 : var3) / 20 + 1);
+    Logo(item.name);
+    p5.pop();
+  };
+  const light = () => {
     p5.camera(
       (120 * (window.innerWidth - p5.mouseX * 2)) / window.innerWidth,
+      // 0,
       -slider6.value(),
       250 + (50 * (window.innerHeight - p5.mouseY * 2)) / window.innerHeight,
       (80 * (window.innerWidth - p5.mouseX * 2)) / window.innerWidth,
-      240 - slider7.value(),
+      // 0,
+      40 - slider7.value(),
       0,
       0,
       1,
       0
     );
+  };
 
-    const v1 = [0, 0, "#e34c26", "html", true];
-    const v2 = [1, 0, "#264de4", "css", false];
-    const v3 = [2, 0, "#f0db4f", "js", true];
-    const v4 = [-1, 0, "#61dbfb", "react", false];
-    const v5 = [-2, 0, "#764abc", "redux", true];
-    const v6 = [0, 1, "#68a063", "nodejs", false];
-    const v7 = [1, 1, "#ffd343", "python", true];
-    const v8 = [-3, 1, "#6b8279", "django", false];
-    const v9 = [-1, 1, "#f34f29", "git", true];
-    const v10 = [-2, 1, "#78cff5", "c", false];
-
-    const v11 = [0, 2, "#e34c26", "csharp", true];
-    const v12 = [1, 2, "#eeeeee", "expressjs", false];
-    const v13 = [2, 2, "#0cd45b", "mongodb", true];
-    const v14 = [-1, 2, "#eeeeee", "unity", true];
-    const v15 = [-2, 2, "#0db7ed", "docker", false];
-    const v16 = [0, -1, "#047adc", "kubernetes", true];
-    const v17 = [1, -1, "#009900", "nginx", false];
-    const v18 = [-3, -1, "#336791", "postgres", true];
-    const v19 = [-1, -1, "#ffffff", "rest", true];
-    const v20 = [-2, -1, "#e535ab", "graphql", false];
-
-    const v21 = [0, -2, "#eeeeee", "next", true];
-    const v22 = [1, -2, "#ffffff", "jwt", false];
-    const v23 = [2, -2, "#563d7c", "bootstrap", true];
-    const v24 = [-1, -2, "#5bc0de", "tailwind", true];
-    const v25 = [-2, -2, "#A41E11", "redis", false];
-    const v26 = [0, -3, "#FFA611", "firebase", false];
-    const v27 = [1, -3, "#999999", "aws", false];
-    const v28 = [-3, -3, "#8993be", "php", true];
-    const v29 = [-1, -3, "#007acc", "ts", true];
-    const v30 = [-2, -3, "#ED225D", "p5js", true];
-    const v = [
-      v1,
-      v2,
-      v3,
-      v4,
-      v5,
-      v6,
-      v7,
-      v8,
-      v9,
-      v10,
-      v11,
-      v12,
-      v13,
-      v14,
-      v15,
-      v16,
-      v17,
-      v18,
-      v19,
-      v20,
-      v20,
-      v21,
-      v22,
-      v23,
-      v24,
-      v25,
-      v26,
-      v27,
-      v28,
-      v29,
-      v30,
-    ];
-    spaceX = slider1.value();
-    spaceY = slider2.value();
-    spaceZ = slider3.value();
-
-    const render = v.map((item) => {
-      return createSphere(
-        item[0] * spaceX +
-          (item[1] % 2 ? spaceX * 1.5 : 0) +
-          Math.floor(item[0] / 2) * spaceX,
-        // item[4] ? spaceZ * p5.sin(myRate / 40) : spaceZ * p5.sin(myRate / 40),
-        item[1] % 2
-          ? item[0] % 2
-            ? spaceZ * p5.sin(myRate / 20 + p5.PI)
-            : spaceZ * p5.sin(myRate / 20)
-          : (item[0] + 1) % 2
-          ? spaceZ * p5.sin(myRate / 20)
-          : spaceZ * p5.sin(myRate / 20 + p5.PI),
-        item[1] * -spaceY,
-        item[2],
-        item[3]
-      );
+  p5.draw = () => {
+    p5.background(0, 0);
+    light();
+    p5.sphere(2);
+    const render = vec3.map((item, ind, arr) => {
+      return createSphere2(item, ind, arr.length);
     });
-    if (checkbox5.checked()) {
-      createLine(v1, v2);
-      createLine(v2, v6);
-      createLine(v6, v7);
-      createLine(v9, v10);
-      createLine(v12, v11);
-      createLine(v9, v11);
-      createLine(v14, v10);
-      createLine(v12, v6);
-      createLine(v1, v19);
-      createLine(v20, v19);
-      createLine(v21, v19);
-      createLine(v20, v4);
-      createLine(v10, v4);
-      createLine(v20, v24);
-      createLine(v16, v22);
-      createLine(v16, v2);
-      createLine(v16, v17);
-      createLine(v21, v22);
-    }
+
     myRate += 1;
+    switch (slider8.value()) {
+      case 1:
+        if (var1 < 20) {
+          var1 += 1;
+        }
+        if (var2 > 0) {
+          var2 -= 1;
+        }
+        if (var3 > 0) {
+          var3 -= 1;
+        }
+        break;
+      case 2:
+        if (var2 < 20) {
+          var2 += 1;
+        }
+        if (var1 > 0) {
+          var1 -= 1;
+        }
+        if (var3 > 0) {
+          var3 -= 1;
+        }
+        break;
+      case 3:
+        if (var3 < 20) {
+          var3 += 1;
+        }
+        if (var2 > 0) {
+          var2 -= 1;
+        }
+        if (var1 > 0) {
+          var1 -= 1;
+        }
+        break;
+      case 0:
+        if (var1 > 0) {
+          var1 -= 1;
+        }
+        if (var2 > 0) {
+          var2 -= 1;
+        }
+        if (var3 > 0) {
+          var3 -= 1;
+        }
+        break;
+    }
   };
 };
 export default function Sketch() {
