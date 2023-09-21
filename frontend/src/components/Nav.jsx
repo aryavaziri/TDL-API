@@ -8,14 +8,16 @@ import Menu from "@components/Menu";
 import Auth from "@components/Auth";
 import ThemeButton from "@components/ThemeButton";
 import Logo from "@/../public/LOGO.svg";
+import { usePathname } from "next/navigation";
 
 const Nav = () => {
+  const pathname = usePathname();
   const [toggle, setToggle] = useState(false);
   const myContext = useContext(Context);
   console.log(myContext);
   return (
     <div
-      className={`absolute w-screen px-2 sm:px-12 md:px-24 pt-12 z-20 text-arya3 dark:text-arya1  ${
+      className={`fixed w-screen px-2 sm:px-12 md:px-24 pt-6 sm:pt-12 z-20 text-arya3 dark:text-arya1  ${
         myContext.menu
           ? " h-screen backdrop-blur-md dark:bg-[#023e8a90] bg-[#caf0f870]"
           : "backdrop-blur-[0px]"
@@ -24,15 +26,17 @@ const Nav = () => {
       <div className="flex justify-between h-[40px]">
         <Link href={`/`}>
           <Image
-            className={`h-full py-1 w-min object-fill`}
+            className={`${
+              !myContext?.menu && pathname !== "/" && "opacity-0"
+            } h-full py-1 w-min object-fill`}
             alt="LOGO"
             src={Logo}
           />
         </Link>
 
         <div className="flex gap-4 h-full">
-          <Auth />
-          <ThemeButton />
+          {myContext?.menu && <Auth />}
+          {myContext?.menu && <ThemeButton />}
           <Menu />
         </div>
       </div>

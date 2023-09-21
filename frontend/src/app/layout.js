@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
         <Provider>
           <Nav />
           <Blur>
-            <main className="px-2 sm:px-12 md:px-24 flex flex-col h-full bg-gradient-to-b from-30% dark:from-5% dark:from-[#023e8add] from-arya2 to-80%   to-transparent">
+            <main className="flex flex-col h-full bg-gradient-to-b from-30% dark:from-5% dark:from-[#023e8add] from-arya2 to-80%   to-transparent">
               {children}
             </main>
           </Blur>
