@@ -15,8 +15,10 @@ const Nav = () => {
   console.log(myContext);
   return (
     <div
-      className={`absolute w-screen px-2 sm:px-12 md:px-24 pt-12 ${
-        myContext.menu ? "" : ""
+      className={`absolute w-screen px-2 sm:px-12 md:px-24 pt-12 z-20 text-arya3 dark:text-arya1  ${
+        myContext.menu
+          ? " h-screen backdrop-blur-md dark:bg-[#023e8a90] bg-[#caf0f870]"
+          : "backdrop-blur-[0px]"
       }`}
     >
       <div className="flex justify-between h-[40px]">

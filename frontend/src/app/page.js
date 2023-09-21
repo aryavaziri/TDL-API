@@ -34,7 +34,7 @@ export default function Home() {
         </h1>
         <h3 className="text-4xl text-center h-12">
           I am a
-          <bold
+          <span
             className={`font-extrabold px-3 inline-block hover:scale-x-105 text-arya4 skills`}
           >
             <div
@@ -80,10 +80,10 @@ export default function Home() {
                 height={20}
               />
             </div>
-          </bold>
+          </span>
           |
-          <bold
-            className={`font-extrabold px-3 inline-block hover:scale-x-105 text-arya4 skills`}
+          <span
+            className={`font-extraspan px-3 inline-block hover:scale-x-105 text-arya4 skills`}
           >
             <div
               className={`border-b-2 border-transparent hover:border-current mb-2`}
@@ -128,10 +128,10 @@ export default function Home() {
                 height={20}
               />
             </div>
-          </bold>
+          </span>
           |
-          <bold
-            className={`font-extrabold px-3 inline-block hover:scale-x-105 text-arya4 skills`}
+          <span
+            className={`font-extraspan px-3 inline-block hover:scale-x-105 text-arya4 skills`}
           >
             <div
               className={`border-b-2 border-transparent hover:border-current mb-2`}
@@ -164,7 +164,7 @@ export default function Home() {
                 height={20}
               />
             </div>
-          </bold>
+          </span>
           developer.
         </h3>
         <div className="flex justify-between mx-auto w-1/2 text-lg mt-12">
@@ -182,7 +182,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      <div className="absolute left-0 top-0 w-screen h-screen z-[-99]">
+      <div className="absolute left-0 top-0 w-screen h-screen z-[-1]">
         <P5Sketch />
       </div>
     </>
