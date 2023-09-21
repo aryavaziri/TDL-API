@@ -9,7 +9,11 @@ function Menu() {
   return (
     <button
       className=""
-      onClick={myContext.toggleMenu}
+      onClick={() => {
+        if (!myContext?.menu) {
+          myContext.toggleMenu();
+        }
+      }}
     >
       <div
         className={`grid grid-cols-3 menu relative ${

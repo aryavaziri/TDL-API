@@ -14,9 +14,9 @@ const Blur = ({ children }) => {
     <div
       className={`relative text-arya3 ${
         pathname == "/" ? "" : "bg-arya1 dark:bg-black"
-      } dark:text-light h-screen w-screen`}
+      } dark:text-light h-auto w-screen`}
     >
-      <div className={`${pathname == "/" ? "" : "h-screen "}`}>{children}</div>
+      <div className={`${pathname == "/" ? "" : "h-full "}`}>{children}</div>
     </div>
   );
 };

@@ -17,6 +17,11 @@ const Nav = () => {
   console.log(myContext);
   return (
     <div
+      onClick={() => {
+        if (myContext?.menu) {
+          myContext.toggleMenu();
+        }
+      }}
       className={`fixed w-screen px-2 sm:px-12 md:px-24 pt-6 sm:pt-12 z-20 text-arya3 dark:text-arya1  ${
         myContext.menu
           ? " h-screen backdrop-blur-md dark:bg-[#023e8a90] bg-[#caf0f870]"
@@ -49,7 +54,7 @@ const Nav = () => {
         {/* <div className="border-8"></div> */}
         <ul className="w-full border-l-4 pl-8 border-current">
           <li
-            onClick={() => menuHandler()}
+            // onClick={() => menuHandler()}
             className={`text-5xl md:text-6xl ${
               myContext.menu ? "menu-item-show my-6 mt-8" : "my-0"
             } ${
@@ -64,7 +69,7 @@ const Nav = () => {
             </Link>
           </li>
           <li
-            onClick={() => menuHandler()}
+            // onClick={() => menuHandler()}
             className={`text-5xl md:text-6xl ${
               myContext.menu ? "menu-item-show my-6" : "my-0"
             } ${
@@ -79,7 +84,7 @@ const Nav = () => {
             </Link>
           </li>
           <li
-            onClick={() => menuHandler()}
+            // onClick={() => menuHandler()}
             className={`text-5xl md:text-6xl ${
               myContext.menu ? "menu-item-show my-6" : "my-0"
             } ${
@@ -94,7 +99,7 @@ const Nav = () => {
             </Link>
           </li>
           <li
-            onClick={() => menuHandler()}
+            // onClick={() => menuHandler()}
             className={`text-5xl md:text-6xl ${
               myContext.menu ? "menu-item-show my-6 " : "my-0"
             } ${

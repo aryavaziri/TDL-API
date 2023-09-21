@@ -28,7 +28,7 @@ export default function Home() {
   };
   return (
     <>
-      <div className={`gap-y-4 flex flex-col`}>
+      <div className={`gap-y-4 flex flex-col h-screen `}>
         <h1 className="text-6xl text-center mt-48 font-extrabold">
           Hello! My name is Arya.
         </h1>

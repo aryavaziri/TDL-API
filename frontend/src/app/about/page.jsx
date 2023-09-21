@@ -3,12 +3,14 @@ import Image from "next/image";
 
 const page = () => {
   return (
-    <div className="h-screen flex flex-col">
-      <div className="pr-4 pb-2 ml-2 sm:ml-12 md:ml-24 z-[2] w-min border-b-2 font-bold text-3xl sm:text-4xl fixed top-4 sm:top-10 border-current">
-        <h1 className="whitespace-nowrap">About me</h1>
+    <div className="h-auto min-h-screen flex flex-col">
+      <div className="pr-4 pl-2 sm:pl-12 md:pl-24 lg:pl-48 backdrop-blur z-[3] w-[65vw] font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl fixed pt-6 sm:pt-10">
+        <h1 className="whitespace-nowrap pb-2 border-b-4 border-current w-min">
+          About me
+        </h1>
       </div>
-      <div className="flex">
-        <div className="z-[2] pt-20 sm:pt-28 pl-2 sm:pl-12 md:pl-24 w-1/2 md:w-2/3 text-lg">
+      <div className="flex pb-24">
+        <div className="z-[2] pt-20 sm:pt-24 md:pt-32 lg:pt-36  pl-2 sm:pl-12 md:pl-24 pr-8 lg:pl-48 w-[60vw] sm:w-[70vw] text-justify md:w-2/3 text-md sm:text-lg md:text-2xl">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic
             deserunt esse vero exercitationem, aspernatur odio porro
@@ -24,6 +26,14 @@ const page = () => {
             nesciunt dolorem ratione!
           </p>
           <br />
+          <div className="flex justify-between w-full px-2 sm:px-4 md:px-12 my-6">
+            <button className="border border-current rounded-lg px-4 sm:px-6 py-2 hover:shadow-lg hover:shadow-arya2">
+              Button1
+            </button>
+            <button className="border border-current rounded-lg px-4 sm:px-6 py-2 hover:shadow-lg hover:shadow-arya2">
+              Button2
+            </button>
+          </div>
           <p className="my-2">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam
             commodi reiciendis, et perferendis ipsum fuga! Sit consectetur velit
@@ -33,9 +43,9 @@ const page = () => {
             iure, nisi neque, cumque sed maiores exercitationem.
           </p>
         </div>
-        <div className="fixed sm:self-end bottom-0 right-0 w-screen h-screen z-[1] sm:w-1/2 md:w-1/3 ">
+        <div className="fixed sm:self-end z-[1] bg-right bottom-0 right-0 h-screen w-screen sm:w-1/2 md:w-1/3 md:shadow-xl md:shadow-white ">
           <Image
-            className="object-cover"
+            className={`md:object-cover object-contain object-right-bottom lg:object-right-top`}
             src="/images/about-rm.png"
             fill
             alt="Profile picture"
