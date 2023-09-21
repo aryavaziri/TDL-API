@@ -32,8 +32,54 @@ import {
   v29,
   v30,
 } from "./data";
+let balls = [];
+
+class Ball {
+  constructor(p5, vec) {
+    this.pos = p5.createVector(
+      (p5.random(p5.width) - p5.width / 2) * 0.8,
+      -600,
+      p5.random(-500, 500)
+    );
+    this.vec = vec;
+    this.vel = p5.createVector((p5.random() - 0.5) * 8, 0);
+    this.acc = p5.createVector(0, 0.5);
+    this.prevPos = this.pos.copy();
+    this.p5 = p5;
+  }
+
+  update(i) {
+    if (this.vel.y == 0 && this.vel.x == 0) {
+      return true;
+    }
+    // this.vel.limit(this.maxspeed);
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+
+    if (this.pos.y >= 0) {
+      this.vel.y *= -0.85;
+      this.vel.x *= 0.95;
+      this.pos.y = -1;
+      if (this.p5.abs(this.vel.y) < 4) {
+        this.pos.y = 0;
+        this.vel.y = 0;
+        this.acc.y = 0;
+      }
+    }
+
+    if (this.p5.abs(this.vel.x) < 0.4) {
+      this.vel.x = 0;
+      this.acc.x = 0;
+    }
+  }
+}
 
 const sketch = (p5) => {
+  let scl = 20;
+  let cols, rows, depth;
+  let flowfield;
+  let colorfield;
+
   let html,
     css,
     js,
@@ -83,6 +129,8 @@ const sketch = (p5) => {
   let radio1;
   let radio2;
 
+  let button;
+
   let random1, random2, random3;
 
   let spaceX = 50;
@@ -96,13 +144,7 @@ const sketch = (p5) => {
   let scale = 0.015;
   let myRate = -10 * p5.PI;
 
-  const vec3 = Array(15)
-    .fill()
-    .map((_) => ({
-      name: names[Math.floor(Math.random() * 30)],
-      group: Math.floor(Math.random() * 3) + 1,
-    }));
-
+  let vec;
   p5.preload = () => {
     html = p5.loadImage("/logo/html.svg");
     css = p5.loadImage("/logo/css.svg");
@@ -139,8 +181,17 @@ const sketch = (p5) => {
 
   p5.setup = () => {
     p5.createCanvas(window.innerWidth, window.innerHeight, p5.WEBGL);
-    p5.perspective(p5.PI / 3, p5.width / p5.height, 0.1, 500);
+    p5.perspective(p5.PI / 4, p5.width / p5.height, 0.1, 5000);
     p5.noStroke();
+    p5.noStroke();
+
+    cols = p5.floor(p5.width / scl);
+    rows = p5.floor(p5.height / scl);
+    depth = p5.floor(50 / scl); // Adjust depth based on 3D dimensions
+
+    flowfield = new Array(cols * rows * depth); // Adjust array size for 3D
+    colorfield = new Array(cols * rows * depth); // Adjust array size for 3D
+
     slider = p5.createSlider(0, 99, 20);
     slider.position(10, 10);
     slider.style("width", "65px");
@@ -150,13 +201,13 @@ const sketch = (p5) => {
     slider2 = p5.createSlider(0, p5.PI * 2, 0, 0.1);
     slider2.position(10, 50);
     slider2.style("width", "65px");
-    slider3 = p5.createSlider(0, 10, 5);
+    slider3 = p5.createSlider(0, 60, 15);
     slider3.position(10, 70);
     slider3.style("width", "65px");
-    slider4 = p5.createSlider(0, 30, 1);
+    slider4 = p5.createSlider(30, 150, 55);
     slider4.position(10, 90);
     slider4.style("width", "65px");
-    slider5 = p5.createSlider(0, 30, 10);
+    slider5 = p5.createSlider(0, 50, 28);
     slider5.position(10, 110);
     slider5.style("width", "65px");
 
@@ -192,9 +243,9 @@ const sketch = (p5) => {
     slider8.position(10, 360);
     slider8.style("width", "65px");
 
-    random1 = p5.random(100);
-    random2 = p5.random(100);
-    random3 = p5.random(100);
+    button = p5.createButton("click me");
+    button.position(10, 380);
+    button.mousePressed(ballDrop);
 
     html.resize(800, 800);
     css.resize(800, 800);
@@ -361,65 +412,6 @@ const sketch = (p5) => {
     p5.pop();
     p5.pop();
   };
-
-  const createLine = (v1, v2) => {
-    p5.push();
-    p5.stroke("#ffffff50");
-    p5.strokeWeight(2);
-    p5.line(
-      v1[0] * spaceX +
-        (v1[1] % 2 ? spaceX * 1.5 : 0) +
-        Math.floor(v1[0] / 2) * spaceX,
-      // v1[4] ? spaceZ * p5.sin(myRate / 40) : spaceZ * p5.sin(myRate / 40),
-      v1[1] % 2
-        ? v1[0] % 2
-          ? spaceZ * p5.sin(myRate / 20 + p5.PI)
-          : spaceZ * p5.sin(myRate / 20)
-        : (v1[0] + 1) % 2
-        ? spaceZ * p5.sin(myRate / 20)
-        : spaceZ * p5.sin(myRate / 20 + p5.PI),
-      v1[1] * -spaceY,
-      v2[0] * spaceX +
-        (v2[1] % 2 ? spaceX * 1.5 : 0) +
-        Math.floor(v2[0] / 2) * spaceX,
-      // v2[4] ? spaceZ * p5.sin(myRate / 40) : spaceZ * p5.sin(myRate / 40),
-      v2[1] % 2
-        ? v2[0] % 2
-          ? spaceZ * p5.sin(myRate / 20 + p5.PI)
-          : spaceZ * p5.sin(myRate / 20)
-        : (v2[0] + 1) % 2
-        ? spaceZ * p5.sin(myRate / 20)
-        : spaceZ * p5.sin(myRate / 20 + p5.PI),
-      v2[1] * -spaceY
-    );
-    p5.pop();
-  };
-
-  const createSphere = (item) => {
-    p5.push();
-    p5.fill(p5.color(256, slider.value()));
-    p5.rotateZ(item.beta);
-    p5.rotateZ(item.gamma / 48);
-    p5.rotateY(item.alfa);
-    p5.rotateY(0.1 * p5.sin(myRate / 10 + item.beta));
-    p5.stroke("#ffffff20");
-    p5.line(
-      50 + (checkbox6.checked() && item.group == 1 ? 50 : 0),
-      0,
-      0,
-      0,
-      0,
-      0
-    );
-    // p5.translate(100 + 10 * p5.sin(myRate / 12), 0, 0);
-    p5.translate(50 + (checkbox6.checked() && item.group == 1 ? 50 : 0), 0, 0);
-    checkbox6.checked() && item.group == 1 ? p5.scale(2) : null;
-    Logo(item.name);
-    // p5.noStroke();
-    p5.sphere(slider4.value());
-    p5.pop();
-  };
-
   const createSphere2 = (item, n1, n2) => {
     p5.push();
     p5.fill(p5.color(256, slider.value()));
@@ -428,20 +420,22 @@ const sketch = (p5) => {
     p5.rotateZ((n1 * 12 * p5.PI) / n2 + myRate * 0.009);
     p5.strokeWeight(2);
     p5.stroke(slider8.value() == item.group ? "#ff000060" : "#ffffff40");
-    // p5.line(
-    //   (item.group == 1 ? var1 : item.group == 2 ? var2 : var3) + 50,
-    //   0,
-    //   0,
-    //   0,
-    //   0,
-    //   0
-    // );
-    p5.translate(
-      (item.group == 1 ? var1 : item.group == 2 ? var2 : var3) + 20,
+    p5.line(
+      (item.group == 1 ? var1 : item.group == 2 ? var2 : var3) +
+        slider4.value(),
+      0,
+      0,
+      0,
       0,
       0
     );
-    console.log(var1, var2, var3);
+    p5.translate(
+      (item.group == 1 ? var1 : item.group == 2 ? var2 : var3) +
+        slider4.value(),
+      0,
+      0
+    );
+    // console.log(var1, var2, var3);
     const logoRotationX = p5.atan2(0, 0) - p5.atan2(0, 100);
     const logoRotationY = p5.atan2(0, 0) - p5.atan2(0, 100);
     const logoRotationZ = p5.atan2(0, 0) - p5.atan2(0, 100);
@@ -457,80 +451,54 @@ const sketch = (p5) => {
   };
   const light = () => {
     p5.camera(
-      (120 * (window.innerWidth - p5.mouseX * 2)) / window.innerWidth,
-      // 0,
-      -slider6.value(),
-      250 + (50 * (window.innerHeight - p5.mouseY * 2)) / window.innerHeight,
-      (280 * (window.innerWidth - p5.mouseX * 2)) / window.innerWidth,
-      // 0,
-      40 - slider7.value(),
+      0 + (p5.mouseX - p5.width / 2) / 8,
+      -600,
+      1500 + p5.mouseY / 4,
       0,
+      -400,
+      50,
       0,
       1,
       0
     );
   };
 
+  const ballDrop = () => {
+    vec = Array(slider3.value())
+      .fill()
+      .map((_) => ({
+        name: names[Math.floor(Math.random() * 30)],
+        group: Math.floor(Math.random() * 3) + 1,
+      }));
+    if (balls.length >= 5) {
+      balls.shift();
+    }
+    balls.push(new Ball(p5, vec));
+  };
+
   p5.draw = () => {
     p5.background(0, 0);
     light();
-    p5.sphere(2);
-    const render = vec3.map((item, ind, arr) => {
-      return createSphere2(item, ind, arr.length);
-    });
+
+    for (var i = 0; i < balls.length; i++) {
+      p5.push();
+      p5.translate(balls[i].pos.x, balls[i].pos.y, balls[i].pos.z);
+      const render = balls[i].vec.map((item, ind, arr) => {
+        return createSphere2(item, ind, arr.length);
+      });
+      if (balls[i].update(i)) {
+        balls.splice(i, 1);
+      }
+      p5.pop();
+    }
 
     myRate += 1;
-    switch (slider8.value()) {
-      case 1:
-        if (var1 < 20) {
-          var1 += 1;
-        }
-        if (var2 > 0) {
-          var2 -= 1;
-        }
-        if (var3 > 0) {
-          var3 -= 1;
-        }
-        break;
-      case 2:
-        if (var2 < 20) {
-          var2 += 1;
-        }
-        if (var1 > 0) {
-          var1 -= 1;
-        }
-        if (var3 > 0) {
-          var3 -= 1;
-        }
-        break;
-      case 3:
-        if (var3 < 20) {
-          var3 += 1;
-        }
-        if (var2 > 0) {
-          var2 -= 1;
-        }
-        if (var1 > 0) {
-          var1 -= 1;
-        }
-        break;
-      case 0:
-        if (var1 > 0) {
-          var1 -= 1;
-        }
-        if (var2 > 0) {
-          var2 -= 1;
-        }
-        if (var3 > 0) {
-          var3 -= 1;
-        }
-        break;
-    }
+    // p5.ortho();
   };
 };
 export default function Sketch() {
   return (
-    <div className={`fixed top-0 left-0 z-[100]`}>
+    <div className={`fixed top-0 left-0 z-[101]`}>
       <NextReactP5Wrapper sketch={sketch} />
     </div>
   );

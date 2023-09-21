@@ -373,6 +373,8 @@ const sketch = (p5) => {
 
     Logo(logo, color);
     p5.sphere(slider4.value());
+    p5.drawingContext.shadowBlur = 320;
+    p5.drawingContext.shadowColor = p5.color(255, 255, 0);
     p5.pop();
   };
 

@@ -90,7 +90,7 @@ router.get(
           .catch(next);
       }
       console.log(token);
-      return res.status(201).redirect(`http://localhost:3010/?token=${token}`);
+      return res.status(201).redirect(`http://localhost:4000/?token=${token}`);
     }
   }
 );
